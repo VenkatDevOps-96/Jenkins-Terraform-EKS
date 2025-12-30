@@ -1,9 +1,9 @@
-module "eks" {
+odule "eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "21.10.1"   # lock module version
 
   name    = local.name
-  kubernetes_version = "1.28"       # Kubernetes version
+  kubernetes_version = "1.29"       # Kubernetes version
   vpc_id     = module.vpc.vpc_id
   subnet_ids = module.vpc.private_subnets
 
@@ -12,7 +12,7 @@ module "eks" {
 
   addons = {
     coredns = { addon_version = "v1.10.1-eksbuild.1" }
-    "kube-proxy" = { addon_version = "v1.28.0-eksbuild.1" }
+    "kube-proxy" = { addon_version = "v1.29.0-eksbuild.1" }
   }
 
   eks_managed_node_groups = {
@@ -25,7 +25,6 @@ module "eks" {
     }
   }
 }
-
 
 
 
