@@ -2,36 +2,36 @@ module "eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "21.1.0"
 
-  cluster_name                   = local.name
-  cluster_endpoint_public_access = true
+  name    = local.name
+  version = "1.28" # Kubernetes version
+  vpc_id  = module.vpc.vpc_id
+  subnets = module.vpc.private_subnets
 
-  cluster_addons = {
-    coredns   = { most_recent = true }
-    kube-proxy = { most_recent = true }
-    vpc-cni   = { most_recent = true }
-  }
+  # Control plane access
+  cluster_endpoint_private_access = true
+  cluster_endpoint_public_access  = true
 
-  vpc_id                   = module.vpc.vpc_id
-  subnet_ids               = module.vpc.private_subnets
-  control_plane_subnet_ids = module.vpc.intra_subnets
+  # Addons
+  manage_aws_auth       = true
+  cluster_addons = [
+    {
+      name    = "coredns"
+      version = "v1.10.1-eksbuild.1"
+    },
+    {
+      name    = "kube-proxy"
+      version = "v1.28.0-eksbuild.1"
+    }
+  ]
 
+  # Node groups
   eks_managed_node_groups = {
-    cluster-wg = {
-      ami_type       = "AL2023_x86_64"
-      instance_types = ["t3.large"]
-      capacity_type  = "SPOT"
-
-      attach_cluster_primary_security_group = true
-
-      min_size     = 1
-      max_size     = 2
-      desired_size = 1
-
-      tags = {
-        ExtraTag = "helloworld"
-      }
+    default = {
+      desired_capacity = 2
+      max_capacity     = 3
+      min_capacity     = 1
+      instance_type    = "t3.medium"
+      subnets          = module.vpc.private_subnets
     }
   }
-
-  tags = local.tags
 }
