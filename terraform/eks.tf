@@ -1,4 +1,4 @@
-odule "eks" {
+module "eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "21.10.1"   # lock module version
 
