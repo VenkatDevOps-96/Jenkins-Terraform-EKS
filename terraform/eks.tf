@@ -1,9 +1,9 @@
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
-  version = "21.1.0"
+  # version = "21.1.0"  <-- removed to avoid duplicate attribute
 
   name    = local.name
-  version = "1.28" # Kubernetes version
+  version = "1.28"  # Kubernetes version
   vpc_id  = module.vpc.vpc_id
   subnets = module.vpc.private_subnets
 
@@ -12,7 +12,7 @@ module "eks" {
   cluster_endpoint_public_access  = true
 
   # Addons
-  manage_aws_auth       = true
+  manage_aws_auth = true
   cluster_addons = [
     {
       name    = "coredns"
@@ -24,7 +24,7 @@ module "eks" {
     }
   ]
 
-  # Node groups
+  # Managed Node Groups
   eks_managed_node_groups = {
     default = {
       desired_capacity = 2
