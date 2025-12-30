@@ -1,5 +1,6 @@
 module "eks" {
-  source = "terraform-aws-modules/eks/aws?ref=v21.10.1"  # latest stable v21
+  source  = "terraform-aws-modules/eks/aws"
+  version = "21.10.1"   # lock module version
 
   name    = local.name
   version = "1.28"       # Kubernetes version
@@ -11,19 +12,11 @@ module "eks" {
 
   manage_aws_auth = true
 
-  # EKS Addons
   cluster_addons = [
-    {
-      name    = "coredns"
-      version = "v1.10.1-eksbuild.1"
-    },
-    {
-      name    = "kube-proxy"
-      version = "v1.28.0-eksbuild.1"
-    }
+    { name = "coredns", version = "v1.10.1-eksbuild.1" },
+    { name = "kube-proxy", version = "v1.28.0-eksbuild.1" }
   ]
 
-  # Managed Node Groups
   eks_managed_node_groups = {
     default = {
       desired_capacity = 2
@@ -34,4 +27,5 @@ module "eks" {
     }
   }
 }
+
 
