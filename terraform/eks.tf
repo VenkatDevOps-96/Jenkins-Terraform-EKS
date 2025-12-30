@@ -1,18 +1,17 @@
 module "eks" {
-  source  = "terraform-aws-modules/eks/aws"
-  version = "~> 21.0"  <-- removed to avoid duplicate attribute
+  source = "terraform-aws-modules/eks/aws?ref=v21.10.1"  # latest stable v21
 
   name    = local.name
-  version = "1.28"  # Kubernetes version
+  version = "1.28"       # Kubernetes version
   vpc_id  = module.vpc.vpc_id
   subnets = module.vpc.private_subnets
 
-  # Control plane access
   cluster_endpoint_private_access = true
   cluster_endpoint_public_access  = true
 
-  # Addons
   manage_aws_auth = true
+
+  # EKS Addons
   cluster_addons = [
     {
       name    = "coredns"
@@ -35,3 +34,4 @@ module "eks" {
     }
   }
 }
+
