@@ -1,6 +1,6 @@
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
-  # version = "21.1.0"  <-- removed to avoid duplicate attribute
+  version = "~> 21.0"  <-- removed to avoid duplicate attribute
 
   name    = local.name
   version = "1.28"  # Kubernetes version
