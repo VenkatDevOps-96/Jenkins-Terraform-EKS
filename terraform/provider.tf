@@ -5,7 +5,7 @@ locals {
   azs      = ["us-east-1a", "us-east-1b"]
   public_subnets  = ["10.123.1.0/24", "10.123.2.0/24"]
   private_subnets = ["10.123.3.0/24", "10.123.4.0/24"]
-  isolated_subnets   = ["10.123.5.0/24", "10.123.6.0/24"]  # changed from intra_subnets
+  intra_subnets   = ["10.123.5.0/24", "10.123.6.0/24"]
   tags = {
     Example = local.name
   }
