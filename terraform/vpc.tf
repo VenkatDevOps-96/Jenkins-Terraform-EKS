@@ -8,16 +8,15 @@ module "vpc" {
   azs             = local.azs
   private_subnets = local.private_subnets
   public_subnets  = local.public_subnets
-  isolated_subnets = local.isolated_subnets   # updated
+  intra_subnets = local.intra_subnets
 
   enable_nat_gateway = true
 
   public_subnet_tags = {
-    "kubernetes.io/role/elb" = 1
+    "kubernetes.io/role/elb" = "1"
   }
 
   private_subnet_tags = {
-    "kubernetes.io/role/internal-elb" = 1
+    "kubernetes.io/role/internal-elb" = "1"
   }
 }
-
